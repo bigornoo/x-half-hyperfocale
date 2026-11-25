@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17262d">
+  <meta name="description" content="Le calculateur d’hyperfocale de poche pour le Fujifilm X half, utilisable hors ligne.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Hyperfocale">
+  <meta name="color-scheme" content="light">
+  <title>X half · Hyperfocale</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+  <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+  <link rel="stylesheet" href="./style.css">
+  <script src="./calculations.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand"><img src="./icons/icon.svg" width="44" height="44" alt=""><div><span class="camera-name">X half</span><h1>Hyperfocale</h1></div></div>
+      <a class="help-link" href="#installation" aria-label="Comment installer l’application">Installer</a>
+    </header>
+
+    <main>
+      <p class="intro">Le bon repère, du premier plan à l’infini.</p>
+      <noscript><p class="notice">Activez JavaScript dans Safari pour utiliser le calculateur.</p></noscript>
+
+      <section class="result-card" aria-labelledby="result-heading">
+        <div class="result-topline"><h2 id="result-heading">Mise au point à l’hyperfocale</h2><span class="lens-tag">10,8 mm</span></div>
+        <div id="live-result" aria-live="polite" aria-atomic="true">
+          <p class="hero-distance"><span id="hyperfocal">—</span><span class="unit">m</span></p>
+          <p class="result-summary">Netteté acceptable de <strong id="near-limit">—</strong> à <strong>l’infini</strong></p>
+          <p class="result-settings" id="result-settings">Choisissez vos réglages ci-dessous.</p>
+        </div>
+        <figure class="depth-diagram" aria-label="La zone de netteté commence à la moitié de la distance hyperfocale et s’étend jusqu’à l’infini.">
+          <div class="diagram-labels"><span>Appareil</span><span>Limite proche</span><span>Mise au point</span><span>Infini</span></div>
+          <div class="diagram-track" aria-hidden="true"><span class="near-marker"></span><span class="focus-marker"></span><span class="infinity">∞</span></div>
+          <div class="diagram-values" aria-hidden="true"><span>0</span><span id="diagram-near">—</span><span id="diagram-focus">—</span><span>∞</span></div>
+          <figcaption>Schéma de principe, non à l’échelle.</figcaption>
+        </figure>
+      </section>
+
+      <section class="controls-card" aria-label="Réglages du calcul">
+        <fieldset>
+          <legend>Ouverture du diaphragme</legend>
+          <div class="apertures">
+            <label><input type="radio" name="aperture" value="2.8"><span>f/2,8</span></label>
+            <label><input type="radio" name="aperture" value="4"><span>f/4</span></label>
+            <label><input type="radio" name="aperture" value="5.6" checked><span>f/5,6</span></label>
+            <label><input type="radio" name="aperture" value="8"><span>f/8</span></label>
+            <label><input type="radio" name="aperture" value="11"><span>f/11</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="coc-fieldset">
+          <legend>Exigence de netteté</legend>
+          <div class="coc-options">
+            <label><input type="radio" name="coc" value="0.011" checked><span><strong>Courante</strong><small>0,011 mm</small></span></label>
+            <label><input type="radio" name="coc" value="0.008"><span><strong>Élevée</strong><small>0,008 mm</small></span></label>
+            <label><input type="radio" name="coc" value="0.005"><span><strong>Très élevée</strong><small>0,005 mm</small></span></label>
+          </div>
+          <p class="field-note" id="coc-description">Le cercle de confusion est un seuil de flou acceptable sur le capteur.</p>
+        </fieldset>
+      </section>
+
+      <p class="field-tip" id="field-tip">Réglez la même ouverture sur votre appareil.</p>
+      <p class="storage-note" id="storage-note" hidden>Les réglages ne peuvent pas être mémorisés dans ce navigateur.</p>
+
+      <section class="reference-sections" aria-label="Aide et repères">
+        <details>
+          <summary>Sur le terrain</summary>
+          <div class="detail-content">
+            <ol>
+              <li>Choisissez le mode d’exposition <strong>A</strong> ou <strong>M</strong>, puis réglez l’ouverture retenue sur la bague de diaphragme.</li>
+              <li>Dans les réglages AF/MF, choisissez la <strong>mise au point manuelle</strong>.</li>
+              <li>Tournez la bague de mise au point pour viser la distance calculée. L’indicateur de distance apparaît sur l’écran.</li>
+              <li>Si l’échelle est trop peu précise, utilisez un sujet situé à une distance connue, puis vérifiez le résultat sur une photo.</li>
+            </ol>
+            <p>La distance affichée est un repère théorique. L’échelle du boîtier ne permet pas forcément un réglage au centimètre. Le calculateur ne commande pas l’appareil.</p>
+            <p>En faisant le point plus loin que l’hyperfocale, l’infini reste dans la zone acceptable, mais la limite proche s’éloigne. La valeur affichée ici suppose une mise au point exactement à H.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Tableau des distances</summary>
+          <div class="detail-content table-wrap">
+            <table><caption id="table-caption">Distances en mètres</caption><thead><tr><th scope="col">Ouverture</th><th scope="col">Hyperfocale</th><th scope="col">Limite proche</th></tr></thead><tbody id="distance-table"></tbody></table>
+            <p>La limite lointaine est l’infini lorsque la mise au point est faite à l’hyperfocale.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Comprendre le calcul</summary>
+          <div class="detail-content">
+            <p class="formula">H = f² / (N × c) + f</p>
+            <p><strong>f = 10,8 mm</strong>, la focale réelle du X half. N est le nombre d’ouverture (par exemple 5,6) et c le cercle de confusion en millimètres. H est obtenu en millimètres, puis divisé par 1 000 pour l’affichage en mètres.</p>
+            <p>Lorsque la mise au point est faite à H, la limite proche est <strong>H / 2</strong> et la limite lointaine est l’infini dans le modèle de lentille mince utilisé ici.</p>
+            <p>Pour une mise au point à une distance s, la formule cohérente avec ce H est : D<sub>proche</sub> = s(H − f) / (H + s − 2f). En posant s = H, on obtient H / 2. Toutes ces longueurs doivent avoir la même unité.</p>
+            <p>Les distances sont mesurées depuis le plan principal de la lentille dans ce modèle. Sur l’appareil réel, elles restent des estimations. Les résultats sont arrondis au centimètre pour la lecture ; le calcul utilise toute la précision disponible.</p>
+            <p>Les trois cercles de confusion sont des <strong>critères de visualisation</strong>, pas des valeurs officielles imposées par Fujifilm. Plus le cercle choisi est petit, plus la netteté demandée est élevée et plus l’hyperfocale s’éloigne.</p>
+            <p>« Acceptable » ne signifie pas parfaitement net à chaque pixel. Le tirage, la distance d’observation, la diffraction, les défauts optiques et le mouvement influencent le résultat. Fermer à f/8 ou f/11 étend la profondeur de champ géométrique, mais la diffraction peut réduire les détails fins.</p>
+          </div>
+        </details>
+        <details id="installation">
+          <summary>Installer sur l’iPhone</summary>
+          <div class="detail-content">
+            <ol>
+              <li>Ouvrez l’adresse <strong>HTTPS</strong> de cette application dans <strong>Safari</strong>, avec une connexion Internet.</li>
+              <li>Attendez le message <strong>« Prêt hors ligne »</strong> en bas de page.</li>
+              <li>Touchez <strong>Partager</strong>, puis <strong>Sur l’écran d’accueil</strong>. Selon votre version d’iOS, le bouton Partager se trouve dans le menu de la page.</li>
+              <li>Si l’option apparaît, activez <strong>Ouvrir comme app web</strong>, puis touchez <strong>Ajouter</strong>.</li>
+              <li>Ouvrez l’icône <strong>Hyperfocale</strong> une première fois avec Internet et attendez à nouveau « Prêt hors ligne ». Testez ensuite en mode avion en désactivant aussi le Wi-Fi.</li>
+            </ol>
+            <p>Le dossier ZIP ou un fichier ouvert depuis l’app Fichiers ne suffisent pas pour installer la version hors ligne. Un hébergement HTTPS est nécessaire pour le premier accès sur l’iPhone.</p>
+            <p>Les fichiers et vos derniers réglages restent dans le stockage local de l’app. Si iOS ou vous effacez ces données, rouvrez l’application avec Internet pour les recharger. Les liens vers les sources demandent une connexion.</p>
+            <p><a href="./installation.html">Guide complet d’hébergement et d’installation</a></p>
+          </div>
+        </details>
+        <details>
+          <summary>À propos et sources</summary>
+          <div class="detail-content">
+            <p>Application indépendante, non affiliée à Fujifilm. Version 1.0.0. Aucun compte, aucune publicité, aucune mesure d’audience. Les calculs se font sur votre appareil.</p>
+            <ul>
+              <li><a href="https://www.fujifilm-x.com/fr-fr/products/cameras/x-hf1/specifications/" target="_blank" rel="noopener noreferrer">Fujifilm : caractéristiques du X half</a></li>
+              <li><a href="https://app.fujifilm-dsc.com/en/manual/x-hf1/taking_photo/manual_focus/" target="_blank" rel="noopener noreferrer">Fujifilm : mise au point manuelle (anglais)</a></li>
+              <li><a href="https://lenspire.zeiss.com/photo/app/uploads/2022/02/technical-article-depth-of-field-and-bokeh.pdf" target="_blank" rel="noopener noreferrer">ZEISS : profondeur de champ et hyperfocale (anglais)</a></li>
+              <li><a href="https://support.apple.com/fr-fr/guide/iphone/iphea86e5236/ios" target="_blank" rel="noopener noreferrer">Apple : installer une app web sur l’iPhone</a></li>
+            </ul>
+          </div>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <p class="offline-status" id="offline-status" role="status">Préparation du mode hors ligne…</p>
+      <button class="text-button" id="retry-offline" type="button" hidden>Réessayer le téléchargement</button>
+      <div class="update-box" id="update-box" hidden><p>Une nouvelle version est prête.</p><button id="apply-update" type="button">Mettre à jour</button></div>
+      <p class="footer-note">FUJIFILM X half · Focale réelle 10,8 mm</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Installer X half · Hyperfocale</title>
+<style>html{font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f4f6f6;color:#17262d}body{max-width:760px;margin:0 auto;padding:32px 22px 70px}h1{font-size:2.2rem;line-height:1.15;letter-spacing:-.04em}h2{font-size:1.35rem;margin:35px 0 10px}h3{font-size:1.05rem}a{color:#a7361e;text-underline-offset:3px}li{margin:9px 0}code{background:#e2e8e8;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}pre{background:#e2e8e8;padding:15px;white-space:pre-wrap;border-radius:10px;font-size:.85rem}.lead{font-size:1.15rem;color:#4b5b61}.note{border-left:4px solid #b63d22;padding:12px 18px;background:white}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:.9rem}td,th{padding:9px;border-bottom:1px solid #cdd7d7;text-align:right}td:first-child,th:first-child{text-align:left}footer{border-top:1px solid #cdd7d7;margin-top:35px;padding-top:16px;color:#52646b;font-size:.85rem}@media print{html{background:white;font-size:11pt}body{padding:0}.back{display:none}h2,h3{break-after:avoid}li,table,.note{break-inside:avoid}}</style>
+</head>
+<body>
+<p class="back"><a href="./index.html">Ouvrir le calculateur</a></p>
+<h1>X half · Hyperfocale</h1>
+<p class="lead">Une petite application de terrain, en français, à ajouter sur l’écran d’accueil de votre iPhone.</p>
+<p class="note"><strong>Les fichiers sont prêts à héberger.</strong> Ils ne sont pas encore publiés sur Internet ni installés sur votre iPhone. Le premier accès doit se faire depuis une adresse HTTPS ; le calculateur peut ensuite fonctionner sans connexion.</p>
+
+<h2>1. Mettre les fichiers en ligne</h2>
+<p>Décompressez <strong>x-half-hyperfocale.zip</strong>. Le dossier obtenu doit contenir directement <code>index.html</code>, les fichiers JavaScript et CSS, <code>manifest.webmanifest</code>, <code>sw.js</code>, ce guide et le dossier <code>icons</code>. Conservez leur organisation et leurs noms. Aucun logiciel de compilation ni serveur applicatif n’est nécessaire.</p>
+<h3>Avec un hébergement statique</h3>
+<p>Par exemple, <a href="https://developers.cloudflare.com/pages/get-started/direct-upload/">Cloudflare Pages propose un dépôt de dossier par glisser-déposer</a> :</p>
+<ol>
+<li>Connectez-vous à votre compte Cloudflare, puis ouvrez la rubrique <strong>Workers &amp; Pages</strong>.</li>
+<li>Créez un projet <strong>Pages</strong> avec l’option de dépôt direct (<strong>Direct Upload / Drag and drop</strong>). Les libellés peuvent varier.</li>
+<li>Donnez un nom au projet et déposez le dossier de l’application. Vérifiez que <code>index.html</code> est à la racine des fichiers publiés.</li>
+<li>Lancez la publication et récupérez l’adresse HTTPS fournie en <code>pages.dev</code>. Elle servira à l’installation dans Safari.</li>
+</ol>
+<p>Autre possibilité : un dépôt public avec GitHub Pages, disponible avec GitHub Free. Publiez ces mêmes fichiers et activez HTTPS dans les réglages Pages. Consultez <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https">la documentation officielle de GitHub Pages</a>.</p>
+<h3>Avec votre hébergement actuel</h3>
+<p>Copiez tous les fichiers dans un dossier dédié, par exemple <code>/hyperfocale/</code>, et utilisez son adresse HTTPS terminée par <code>/</code>. Les chemins de l’application sont relatifs : un sous-dossier est pris en charge.</p>
+<p>Le serveur doit servir <code>sw.js</code> comme JavaScript et le manifeste comme <code>application/manifest+json</code> ou JSON. Un fichier absent doit renvoyer une erreur 404, pas la page d’accueil. Pour les mises à jour, évitez un cache HTTP longue durée sur <code>sw.js</code> et <code>index.html</code> ; une politique <code>Cache-Control: no-cache</code> convient.</p>
+
+<h2>2. Installer dans Safari sur l’iPhone</h2>
+<ol>
+<li>Ouvrez l’adresse <strong>HTTPS</strong> dans <strong>Safari</strong>, en navigation normale et avec Internet.</li>
+<li>Attendez le message <strong>Prêt hors ligne</strong> en bas de la page. Il confirme que tous les fichiers nécessaires sont présents dans le cache de l’application.</li>
+<li>Touchez <strong>Partager</strong>, puis <strong>Sur l’écran d’accueil</strong>. Selon l’interface de Safari, Partager se trouve dans le menu de la page.</li>
+<li>Si proposé, activez <strong>Ouvrir comme app web</strong>. Conservez le nom « Hyperfocale » puis touchez <strong>Ajouter</strong>.</li>
+<li>Ouvrez l’application depuis sa nouvelle icône, toujours avec Internet, et attendez <strong>Prêt hors ligne</strong>. Cette étape est utile car le stockage de l’app installée peut être distinct de celui de Safari.</li>
+</ol>
+<p>La procédure officielle est décrite par <a href="https://support.apple.com/fr-fr/guide/iphone/iphea86e5236/ios">Apple : transformer un site web en app</a>. L’interface peut différer selon votre version d’iOS.</p>
+
+<h2>3. Vérifier le mode hors ligne</h2>
+<ol>
+<li>Activez le mode avion et désactivez aussi le Wi-Fi.</li>
+<li>Fermez l’application, puis ouvrez-la à nouveau depuis son icône.</li>
+<li>Changez l’ouverture et le cercle de confusion : les distances doivent se recalculer immédiatement.</li>
+<li>Essayez <strong>f/5,6 et 0,011 mm</strong> : l’hyperfocale est <strong>1,90 m</strong> et la limite proche <strong>0,95 m</strong>.</li>
+<li>Les rubriques d’aide et le présent guide restent consultables. Les liens externes vers les sources nécessitent Internet.</li>
+</ol>
+<p>Le calcul et la mémorisation des réglages sont locaux. Aucun compte n’est nécessaire dans l’application. Il n’y a ni bibliothèque distante, ni police à télécharger, ni publicité, ni télémétrie.</p>
+<p>Le stockage web n’est pas une installation permanente garantie : une suppression des données de Safari/de l’app ou une éviction par iOS peut retirer le cache. Gardez une copie de l’archive et l’adresse HTTPS. Si nécessaire, rouvrez l’application en ligne et utilisez « Réessayer le téléchargement ». <a href="https://webkit.org/blog/14403/updates-to-storage-policy/">WebKit documente ces règles de stockage.</a></p>
+
+<h2>Les distances et la formule</h2>
+<p><strong>H = f² / (N × c) + f</strong>, avec f = 10,8 mm, N = nombre d’ouverture et c = cercle de confusion en mm. Le résultat H est en millimètres ; il est divisé par 1 000 pour l’affichage en mètres.</p>
+<p>Avec une mise au point exactement à H, la limite proche est <strong>H / 2</strong> et la limite lointaine l’infini. Dans le modèle de lentille mince, la formule générale cohérente est D<sub>proche</sub> = s(H − f) / (H + s − 2f). Elle donne H / 2 lorsque s = H.</p>
+<p>On utilise la focale réelle de 10,8 mm, pas l’équivalent 24 × 36 de 32 mm. Les distances sont référencées au plan principal de la lentille dans ce modèle. L’application propose cinq ouvertures usuelles : f/2,8, f/4, f/5,6, f/8 et f/11. Le boîtier permet aussi des crans intermédiaires, non proposés dans cette version.</p>
+<table><caption>Repères avec c = 0,011 mm, arrondis au centimètre</caption><thead><tr><th>Ouverture</th><th>Hyperfocale</th><th>Limite proche</th></tr></thead><tbody><tr><td>f/2,8</td><td>3,80 m</td><td>1,90 m</td></tr><tr><td>f/4</td><td>2,66 m</td><td>1,33 m</td></tr><tr><td>f/5,6</td><td>1,90 m</td><td>0,95 m</td></tr><tr><td>f/8</td><td>1,34 m</td><td>0,67 m</td></tr><tr><td>f/11</td><td>0,97 m</td><td>0,49 m</td></tr></tbody></table>
+<p>Les choix 0,011 / 0,008 / 0,005 mm représentent des exigences de netteté, pas une certification du constructeur. Une exigence plus élevée donne une hyperfocale plus éloignée. Le calcul ne modélise ni la diffraction ni les défauts optiques ni le mouvement. L’indicateur de distance du boîtier peut être trop peu précis pour reproduire exactement le résultat ; vérifiez vos images.</p>
+<p>Note : à f/11 et c = 0,011 mm, H = 0,9747669… m, soit <strong>0,97 m</strong> au centimètre le plus proche. Une valeur de 0,98 m correspond à un arrondi vers le haut, pas à l’arrondi usuel.</p>
+
+<h2>Pourquoi HTTPS ? Pourquoi pas simplement un fichier ?</h2>
+<p>Le <strong>service worker</strong> met les fichiers en cache pour les réouvertures hors ligne. Il doit être enregistré depuis une origine sécurisée. Sur l’iPhone, utilisez une adresse HTTPS avec un certificat valide. Ouvrir <code>index.html</code> dans Fichiers ou via une adresse <code>file://</code> ne fournit pas cette installation. Un lien HTTP vers l’adresse locale d’un Mac ou d’un NAS ne suffit pas non plus.</p>
+<p>L’exception <code>http://localhost</code> sert au développement sur le même appareil. Sur un iPhone, « localhost » désigne l’iPhone, pas votre Mac. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers">Référence MDN sur les service workers.</a></p>
+
+<h2>Et une application native ou un raccourci ?</h2>
+<p>La PWA correspond bien à ce calculateur : icône dédiée, fenêtre autonome, interface complète et calcul hors ligne, sans passage par l’App Store ni compte développeur Apple.</p>
+<p>Une application iOS native nécessiterait un projet distinct compilé et signé, typiquement avec <strong>Xcode sur Mac</strong> et un compte Apple. Un simple fichier <code>.ipa</code> non signé ne s’installe pas comme une application ordinaire. Avec une <strong>Personal Team</strong> gratuite, les profils de test expirent après <strong>7 jours</strong> et l’app doit être reconstruite et réinstallée. La distribution classique via l’App Store demande l’adhésion au programme développeur et ses étapes de validation. <a href="https://developer.apple.com/help/account/basics/about-your-developer-account">Contraintes officielles Apple.</a></p>
+<p>Un raccourci iOS local pourrait faire le même calcul avec deux menus et une alerte de résultat, sans hébergement. Il serait moins adapté au schéma, au tableau et aux réglages visibles simultanément. La version livrée ici est la PWA ; aucun raccourci ni paquet natif n’est inclus.</p>
+
+<h2>Fichiers et maintenance</h2>
+<ul>
+<li><code>index.html</code> et <code>style.css</code> : interface française adaptée au mobile.</li>
+<li><code>calculations.js</code> : formule et paramètres du calcul.</li>
+<li><code>app.js</code> : interactions, mémorisation locale et état hors ligne.</li>
+<li><code>manifest.webmanifest</code> : nom, icônes et mode autonome.</li>
+<li><code>sw.js</code> : cache des fichiers, vérification et mises à jour.</li>
+<li><code>icons/</code> : icône vectorielle, PNG 192 et 512 px, version maskable 512 px et icône Apple 180 px.</li>
+<li><code>installation.html</code> : ce guide, également disponible hors ligne.</li>
+</ul>
+<p>Pour modifier l’application, changez les fichiers puis <strong>incrémentez VERSION dans sw.js</strong>. Publiez tous les fichiers ensemble. Une nouvelle visite en ligne téléchargera la nouvelle version ; un bouton « Mettre à jour » apparaîtra lorsqu’elle sera prête. Le remplacement recharge l’app ; les réglages mémorisés sont conservés.</p>
+<p>Pour un aperçu sur un ordinateur équipé de Python, ouvrez un terminal dans le dossier décompressé :</p>
+<pre>python3 -m http.server 8765 --bind 127.0.0.1</pre>
+<p>Ouvrez ensuite <code>http://localhost:8765/</code> sur cet ordinateur. Ce serveur de test ne rend pas l’application installable à distance sur l’iPhone.</p>
+
+<h2>Sources techniques</h2>
+<ul>
+<li><a href="https://www.fujifilm-x.com/fr-fr/products/cameras/x-hf1/specifications/">Fujifilm : caractéristiques du X half</a>.</li>
+<li><a href="https://app.fujifilm-dsc.com/en/manual/x-hf1/taking_photo/manual_focus/">Fujifilm : bague de mise au point et indicateur de distance</a> (anglais).</li>
+<li><a href="https://lenspire.zeiss.com/photo/app/uploads/2022/02/technical-article-depth-of-field-and-bokeh.pdf">ZEISS : Depth of Field and Bokeh</a>, explication de l’hyperfocale et du cercle de confusion (anglais).</li>
+</ul>
+<footer>Version 1.0.0 · 25 novembre 2026 · Application indépendante, non affiliée à Fujifilm.</footer>
+</body></html>
